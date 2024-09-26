@@ -5,6 +5,7 @@ CREATE DATABASE STUDENTS;
 
 USE STUDENTS;
 
+ /*kfkkkg*/
 
 CREATE TABLE PersonalInfo (
         StudentID INT PRIMARY KEY,
