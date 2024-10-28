@@ -1,100 +1,53 @@
---DATA CONSTRAINTS 
 
--- NOT NULL
---PRIMARY KEY
--- FOREIGN KEY
---=UNIQUE
---CHECK
---DEFAULT
+/* Р—Р°РІРґР°РЅРЅСЏ 1: РЎС‚РІРѕСЂРµРЅРЅСЏ Р±Р°Р·Рё РґР°РЅРёС… "University" */
+CREATE DATABASE University;
+USE University;
 
-
-
-
-
-CREATE DATABASE UNIVERSITY;
-
-
-
---PRIMARY KEY
---1) в стовбці місяться тільки унікальні значення
---2) в стовбці не може бути значень NULL
---3) таблиця може містити тільки один РК
---4) може бути композитний РК (складатись з декількох стовбців)
-
-
---1-й спосіб задати РК
-
-
-CREATE TABLE Groups (
-GroupID INT NOT NULL, --PRIMARY KEY
-Title NVARCHAR(20),
-Curator NVARCHAR(100)
-)
-;
-
-
---2-й спосіб задати РК
-ALTER TABLE Groups ADD CONSTRAINT  PK_GroupID PRIMARY KEY (GroupID);
-
-
-
--- FOREIGN KEY
--- Не може бути значень, які відсутні в іншої баблиці, на який посилається FK
--- Не може бути значення NULL
-
---1-й спосіб задати FК
+/* Р—Р°РІРґР°РЅРЅСЏ 2: РЎС‚РІРѕСЂРµРЅРЅСЏ С‚Р°Р±Р»РёС†С– Students */
 CREATE TABLE Students (
-StudentID INT PRIMARY KEY,
-[Name] NVARCHAR(100),
-GroupID INT
-                --FOREIGN KEY (GroupID) REFERENCES [dbo].[Groups] (GroupID)
-)
-;
+    StudentID INT PRIMARY KEY,
+    FirstName NVARCHAR(50),
+    LastName NVARCHAR(50),
+    EnrollmentDate DATE
+);
 
+/* Р—Р°РІРґР°РЅРЅСЏ 2: РЎС‚РІРѕСЂРµРЅРЅСЏ С‚Р°Р±Р»РёС†С– Courses */
+CREATE TABLE Courses (
+    CourseID INT PRIMARY KEY,
+    CourseName NVARCHAR(100),
+    CourseDescription TEXT,
+    Credits INT
+);
 
---2-й спосіб задати FК
-ALTER TABLE [dbo].[Students] ADD CONSTRAINT FK_GroupID 
-FOREIGN KEY (GroupID) REFERENCES [dbo].[Groups] (GroupID)
+/* Р—Р°РІРґР°РЅРЅСЏ 3: Р—Р°РїРѕРІРЅРµРЅРЅСЏ С‚Р°Р±Р»РёС†С– Students */
+INSERT INTO Students (StudentID, FirstName, LastName, EnrollmentDate) VALUES
+    (1, 'РђРЅРґСЂС–Р№', 'РЁРµРІС‡РµРЅРєРѕ', '2022-09-01'),
+    (2, 'РћР»РµРЅР°', 'РџРµС‚СЂС–РІРЅР°', '2023-01-15'),
+    (3, 'РњР°СЂРєРѕ', 'Р—СѓР±РµРЅРєРѕ', '2023-09-10');
 
+/* Р—Р°РІРґР°РЅРЅСЏ 3: Р—Р°РїРѕРІРЅРµРЅРЅСЏ С‚Р°Р±Р»РёС†С– Courses */
+INSERT INTO Courses (CourseID, CourseName, CourseDescription, Credits) VALUES
+    (101, 'РџСЂРѕРіСЂР°РјСѓРІР°РЅРЅСЏ', 'РћСЃРЅРѕРІРё РїСЂРѕРіСЂР°РјСѓРІР°РЅРЅСЏ С‚Р° Р°Р»РіРѕСЂРёС‚РјС–Р·Р°С†С–С—', 4),
+    (102, 'РњР°С‚РµРјР°С‚РёРєР°', 'РњР°С‚РµРјР°С‚РёС‡РЅРёР№ Р°РЅР°Р»С–Р· С‚Р° Р»С–РЅС–Р№РЅР° Р°Р»РіРµР±СЂР°', 3),
+    (103, 'Р¤С–Р·РёРєР°', 'РћСЃРЅРѕРІРё С„С–Р·РёРєРё', 4);
 
+/* Р—Р°РІРґР°РЅРЅСЏ 4: Р’РёР±С–СЂРєР° РґР°РЅРёС… Р· С‚Р°Р±Р»РёС†С– Students */
+SELECT * FROM Students;
 
---=UNIQUE
-ALTER TABLE [dbo].[Students] ADD [E-MAL] NVARCHAR(50);
+/* Р—Р°РІРґР°РЅРЅСЏ 4: Р’РёР±С–СЂРєР° РґР°РЅРёС… Р· С‚Р°Р±Р»РёС†С– Courses */
+SELECT * FROM Courses;
 
-ALTER TABLE [dbo].[Students] ADD CONSTRAINT UQ_EMAIL UNIQUE ([E-MAL]);
+/* Р—Р°РІРґР°РЅРЅСЏ 5: Р”РѕРґР°РІР°РЅРЅСЏ СЃС‚РѕРІРїС†СЏ Email РґРѕ С‚Р°Р±Р»РёС†С– Students */
+ALTER TABLE Students ADD Email NVARCHAR(100);
 
+/* Р—Р°РІРґР°РЅРЅСЏ 5: Р”РѕРґР°РІР°РЅРЅСЏ СЃС‚РѕРІРїС†СЏ Department РґРѕ С‚Р°Р±Р»РёС†С– Courses */
+ALTER TABLE Courses ADD Department NVARCHAR(100);
 
+/* Р—Р°РІРґР°РЅРЅСЏ 6: РџРѕРІС‚РѕСЂРЅР° РІРёР±С–СЂРєР° РґР°РЅРёС… Р· С‚Р°Р±Р»РёС†С– Students */
+SELECT * FROM Students;
 
+/* Р—Р°РІРґР°РЅРЅСЏ 6: РџРѕРІС‚РѕСЂРЅР° РІРёР±С–СЂРєР° РґР°РЅРёС… Р· С‚Р°Р±Р»РёС†С– Courses */
+SELECT * FROM Courses;
 
---CHECK
-ALTER TABLE [dbo].[Students] ADD AGE INT
-
-ALTER TABLE [dbo].[Students] ADD CONSTRAINT CHE_AGE CHECK (AGE>=15);
-
-
-
---DEFAULT
-ALTER TABLE [dbo].[Students] ADD Date_Of_Entry DATE;
-
-
-
-ALTER TABLE [dbo].[Students] ADD CONSTRAINT DF_Date_Of_Entry DEFAULT GETDATE() FOR Date_Of_Entry;
-
-
-
-INSERT INTO Groups ([GroupID], [Title], [Curator])
-VALUES (1,'EК-20-1', 'Оглих В. В.')
-
-INSERT INTO [dbo].[Students] ([StudentID], [Name], [GroupID], [E-MAL], [AGE])
-VALUES (4,'Сидорчуков Щ. І.', 1, '126@mail.com', 29);
-
-
-SELECT*
-FROM  [dbo].[Groups];
-
-SELECT*
-FROM  [dbo].[Students];
-
-
-DROP TABLE Groups
-DROP TABLE [dbo].[Students]
+/* Р—Р°РІРґР°РЅРЅСЏ 7: Р’РёРґР°Р»РµРЅРЅСЏ Р±Р°Р·Рё РґР°РЅРёС… University */
+DROP DATABASE University;
